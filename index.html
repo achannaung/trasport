@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ယာဉ်နံပါတ် မ/စုံ တွက်ချက်မယ်</title>
+    <title>ယာဉ်နံပါတ် မ/စုံ တွက်ချက်စက်</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -54,7 +54,7 @@
                     ယာဉ်လိုင်စင်နံပါတ် ထည့်ပါ
                 </label>
                 <div class="relative">
-                    <input type="text" id="plateInput" placeholder="ဥပမာ- 1S" 
+                    <input type="text" id="plateInput" placeholder="ဥပမာ- 1S, 2S" 
                            class="w-full text-xl md:text-2xl font-mono p-4 pr-12 rounded-xl border-2 border-slate-100 focus:border-blue-500 focus:ring-4 focus:ring-blue-50 focus:outline-none transition-all uppercase">
                     <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300">
                         <i data-lucide="car"></i>
@@ -137,18 +137,34 @@
                 <p class="text-sm text-slate-600 mb-6 italic leading-relaxed">
                     ယာဉ်နံပါတ် နောက်ဆုံးဂဏန်းသည် "စုံ" ဖြစ်ပါက စုံဂဏန်းရက်များတွင် မောင်းနှင်နိုင်ပြီး၊ "မ" ဖြစ်ပါက မဂဏန်းရက်များတွင် မောင်းနှင်နိုင်ပါသည်။
                 </p>
-                <div class="space-y-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl">
                         <i data-lucide="zap" class="text-amber-500"></i>
-                        <span class="text-sm font-medium text-slate-700">လျှပ်စစ်ကားများ (EVs)</span>
+                        <span class="text-[13px] font-medium text-slate-700">လျှပ်စစ်ကားများ (EVs)</span>
                     </div>
                     <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl">
                         <i data-lucide="circle-dot" class="text-yellow-600"></i>
-                        <span class="text-sm font-medium text-slate-700">အငှားယာဉ်များနှင့် Taxis များ</span>
+                        <span class="text-[13px] font-medium text-slate-700">အငှားယာဉ်များနှင့် Taxis များ</span>
                     </div>
                     <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl">
                         <i data-lucide="bus" class="text-blue-500"></i>
-                        <span class="text-sm font-medium text-slate-700">အများပြည်သူသုံးယာဉ်များနှင့် အရေးပေါ်ယာဉ်များ</span>
+                        <span class="text-[13px] font-medium text-slate-700">အများပြည်သူသုံးယာဉ်များနှင့် အရေးပေါ်ယာဉ်များ</span>
+                    </div>
+                    <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl">
+                        <i data-lucide="users" class="text-indigo-500"></i>
+                        <span class="text-[13px] font-medium text-slate-700">ဝန်ထမ်းကြိုပို့ယာဉ်များ</span>
+                    </div>
+                    <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl">
+                        <i data-lucide="truck" class="text-orange-600"></i>
+                        <span class="text-[13px] font-medium text-slate-700">ကုန်စည်ဖြန့်ဖြူးရေးယာဉ်များ</span>
+                    </div>
+                    <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl">
+                        <i data-lucide="briefcase" class="text-slate-600"></i>
+                        <span class="text-[13px] font-medium text-slate-700">ရုံးလုပ်ငန်းအသုံးပြုသည့်ယာဉ်များ</span>
+                    </div>
+                    <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl">
+                        <i data-lucide="graduation-cap" class="text-emerald-600"></i>
+                        <span class="text-[13px] font-medium text-slate-700">ကျောင်းကြို/ပို့ယာဉ်များ</span>
                     </div>
                 </div>
                 <button id="closeInfo" class="w-full mt-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/20 transition-all active:scale-95">
@@ -167,7 +183,7 @@
         let currentPlate = '';
         let viewDate = new Date();
         let darkMode = false;
-        let plateParity = null; // 'စုံ' or 'မ' or null
+        let plateParity = null;
 
         const monthsMy = ["ဇန်နဝါရီ", "ဖေဖော်ဝါရီ", "မတ်", "ဧပြီ", "မေ", "ဇွန်", "ဇူလိုင်", "ဩဂုတ်", "စက်တင်ဘာ", "အောက်တိုဘာ", "နိုဝင်ဘာ", "ဒီဇင်ဘာ"];
 
@@ -182,7 +198,6 @@
         const exemptionsPanel = document.getElementById('exemptionsPanel');
         const closeInfo = document.getElementById('closeInfo');
 
-        // Logic: Parity
         function updateParity() {
             currentPlate = plateInput.value;
             const digits = currentPlate.match(/\d/g);
@@ -210,12 +225,10 @@
             renderCalendar();
         }
 
-        // Logic: Calendar
         function renderCalendar() {
             calendarGrid.innerHTML = '';
             const year = viewDate.getFullYear();
             const month = viewDate.getMonth();
-            
             monthLabel.innerText = `${year} ခုနှစ်၊ ${monthsMy[month]}`;
 
             const firstDayOfMonth = new Date(year, month, 1).getDay();
@@ -223,25 +236,16 @@
             const prevMonthLastDay = new Date(year, month, 0).getDate();
             const today = new Date();
 
-            // Padding previous month
             for (let i = firstDayOfMonth - 1; i >= 0; i--) {
-                const dayDiv = createDayElement(prevMonthLastDay - i, false);
-                calendarGrid.appendChild(dayDiv);
+                calendarGrid.appendChild(createDayElement(prevMonthLastDay - i, false));
             }
-
-            // Current month
             for (let i = 1; i <= daysInMonth; i++) {
                 const isCurToday = i === today.getDate() && month === today.getMonth() && year === today.getFullYear();
-                const dayDiv = createDayElement(i, true, isCurToday);
-                calendarGrid.appendChild(dayDiv);
+                calendarGrid.appendChild(createDayElement(i, true, isCurToday));
             }
-
-            // Padding next month
-            const totalSlots = 42;
-            const remaining = totalSlots - (firstDayOfMonth + daysInMonth);
+            const remaining = 42 - (firstDayOfMonth + daysInMonth);
             for (let i = 1; i <= remaining; i++) {
-                const dayDiv = createDayElement(i, false);
-                calendarGrid.appendChild(dayDiv);
+                calendarGrid.appendChild(createDayElement(i, false));
             }
             lucide.createIcons();
         }
@@ -249,45 +253,40 @@
         function createDayElement(day, isCurrentMonth, isCurToday = false) {
             const div = document.createElement('div');
             let eligibility = 'neutral';
-            
             if (isCurrentMonth && plateParity) {
                 const dayParity = day % 2 === 0 ? 'စုံ' : 'မ';
                 eligibility = dayParity === plateParity ? 'allowed' : 'restricted';
             }
-
             div.className = `aspect-square flex flex-col items-center justify-center rounded-xl relative transition-all text-sm md:text-base font-medium `;
-            
             if (!isCurrentMonth) {
                 div.classList.add(darkMode ? 'text-slate-800' : 'text-slate-300', 'opacity-20');
+                div.innerText = day;
             } else {
                 if (eligibility === 'allowed') {
-                    div.classList.add(darkMode ? 'bg-emerald-500/20' : 'bg-emerald-50', darkMode ? 'text-emerald-400' : 'text-emerald-700');
+                    div.classList.add(darkMode ? 'bg-emerald-500/20' : 'bg-emerald-400' , darkMode ? 'text-emerald-400' : 'text-emerald-700');
+                    if (!darkMode) div.classList.add('bg-emerald-50');
                     div.innerHTML = `${day} <i data-lucide="check-circle-2" class="w-2 h-2 mt-1 opacity-60"></i>`;
                 } else if (eligibility === 'restricted') {
-                    div.classList.add(darkMode ? 'bg-rose-500/20' : 'bg-rose-50', darkMode ? 'text-rose-400' : 'text-rose-700');
+                    div.classList.add(darkMode ? 'bg-rose-500/20' : 'bg-rose-400' , darkMode ? 'text-rose-400' : 'text-rose-700');
+                    if (!darkMode) div.classList.add('bg-rose-50');
                     div.innerHTML = `${day} <i data-lucide="alert-circle" class="w-2 h-2 mt-1 opacity-60"></i>`;
                 } else {
                     div.classList.add(darkMode ? 'text-slate-300' : 'text-slate-700');
                     div.innerText = day;
                 }
-
                 if (isCurToday) {
                     div.classList.add('ring-2', 'ring-blue-500', 'ring-offset-2');
-                    if (darkMode) div.classList.add('ring-offset-slate-900');
+                    if (darkMode) div.classList.add('ring-offset-slate-950');
                 }
             }
-
             return div;
         }
 
-        // Theme Toggle
         themeToggle.addEventListener('click', () => {
             darkMode = !darkMode;
             document.body.classList.toggle('dark-mode', darkMode);
-            
-            // UI adjustments
-            const cards = ['inputCard', 'calendarCard', 'exemptionsPanel'];
-            cards.forEach(id => {
+            const cardIds = ['inputCard', 'calendarCard', 'exemptionsPanel'];
+            cardIds.forEach(id => {
                 const el = document.getElementById(id);
                 if (darkMode) {
                     el.classList.replace('bg-white', 'bg-slate-900');
@@ -300,39 +299,24 @@
                 }
             });
 
+            document.querySelectorAll('#exemptionsPanel div.bg-slate-50').forEach(el => {
+                if(darkMode) el.classList.replace('bg-slate-50', 'bg-slate-800');
+                else el.classList.replace('bg-slate-800', 'bg-slate-50');
+            });
+
             themeIcon.setAttribute('data-lucide', darkMode ? 'sun' : 'moon');
             themeToggle.classList.toggle('bg-slate-800', darkMode);
             themeToggle.classList.toggle('text-amber-400', darkMode);
-            
-            updateParity(); // Re-render to update component styles
+            updateParity();
         });
 
-        // Event Listeners
         plateInput.addEventListener('input', updateParity);
-        
-        document.getElementById('prevMonth').addEventListener('click', () => {
-            viewDate.setMonth(viewDate.getMonth() - 1);
-            renderCalendar();
-        });
+        document.getElementById('prevMonth').addEventListener('click', () => { viewDate.setMonth(viewDate.getMonth() - 1); renderCalendar(); });
+        document.getElementById('nextMonth').addEventListener('click', () => { viewDate.setMonth(viewDate.getMonth() + 1); renderCalendar(); });
+        infoToggle.addEventListener('click', () => { exemptionsPanel.classList.toggle('hidden'); });
+        closeInfo.addEventListener('click', () => { exemptionsPanel.classList.add('hidden'); });
 
-        document.getElementById('nextMonth').addEventListener('click', () => {
-            viewDate.setMonth(viewDate.getMonth() + 1);
-            renderCalendar();
-        });
-
-        infoToggle.addEventListener('click', () => {
-            exemptionsPanel.classList.toggle('hidden');
-        });
-
-        closeInfo.addEventListener('click', () => {
-            exemptionsPanel.classList.add('hidden');
-        });
-
-        // Initial Load
-        window.onload = () => {
-            lucide.createIcons();
-            renderCalendar();
-        };
+        window.onload = () => { lucide.createIcons(); renderCalendar(); };
     </script>
 </body>
 </html>
