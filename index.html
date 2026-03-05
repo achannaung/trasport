@@ -13,108 +13,134 @@
         
         body {
             font-family: 'Pyidaungsu', sans-serif;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        .dark-mode {
-            background-color: #020617; /* slate-950 */
-            color: #f1f5f9; /* slate-100 */
+        .glass-card {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Base Theme Styles */
+        body.dark-mode {
+            background-color: #020617;
+            background-image: radial-gradient(circle at top right, #1e1b4b, #020617);
+            color: #f1f5f9;
+        }
+
+        body.light-mode {
+            background-color: #f8fafc;
+            background-image: radial-gradient(circle at top left, #eef2ff, #f8fafc);
         }
 
         /* Calendar grid animations */
         .fade-in {
-            animation: fadeIn 0.3s ease-in-out;
+            animation: fadeIn 0.4s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        input::placeholder {
+            font-family: 'Pyidaungsu', sans-serif;
+            opacity: 0.6;
+        }
+
+        /* Smooth transitions for theme switching */
+        .theme-transition {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen p-4 md:p-8">
-    <div id="app" class="max-w-xl mx-auto">
+<body class="dark-mode text-slate-100 min-h-screen p-4 md:p-8 flex items-center justify-center">
+    <div id="app" class="max-w-xl w-full">
         <!-- Header -->
-        <header class="mb-8 relative text-center">
-            <button id="themeToggle" class="absolute right-0 top-0 p-2 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 transition-all shadow-sm">
-                <i data-lucide="moon" id="themeIcon"></i>
+        <header class="mb-10 relative text-center">
+            <button id="themeToggle" class="absolute right-0 top-0 p-3 rounded-2xl border border-slate-700 bg-slate-800 glass-card text-amber-400 hover:scale-110 transition-all shadow-md active:scale-95 theme-transition">
+                <i data-lucide="sun" id="themeIcon" class="w-5 h-5"></i>
             </button>
 
-            <div class="inline-flex items-center justify-center p-3 bg-blue-600 rounded-2xl mb-4 shadow-lg shadow-blue-500/20">
-                <i data-lucide="car" class="text-white w-8 h-8"></i>
+            <div class="inline-flex items-center justify-center p-4 bg-gradient-to-br from-indigo-600 to-violet-700 rounded-[2rem] mb-6 shadow-xl shadow-indigo-500/30 transform hover:rotate-3 transition-transform">
+                <i data-lucide="car" class="text-white w-10 h-10"></i>
             </div>
-            <h1 class="text-2xl md:text-3xl font-bold tracking-tight">ယာဉ်နံပါတ် မ/စုံ တွက်ချက်မယ်</h1>
-            <p id="subHeader" class="text-slate-500 mt-2">သင်၏ ကားမောင်းနှင်ခွင့်ရက်ကို စစ်ဆေးပါ။</p>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600">
+                ယာဉ်နံပါတ် မ/စုံ တွက်ချက်မယ်
+            </h1>
+            <p id="subHeader" class="text-slate-400 font-medium mt-3 text-lg">သင်၏ ကားမောင်းနှင်ခွင့်ရက်ကို စစ်ဆေးပါ။</p>
         </header>
 
         <!-- Input Section -->
-        <section id="inputCard" class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 mb-6">
-            <div class="flex flex-col gap-4">
-                <label class="text-sm font-semibold uppercase tracking-wider text-slate-700" id="inputLabel">
+        <section id="inputCard" class="bg-slate-900/90 glass-card rounded-[2.5rem] shadow-xl shadow-indigo-950/20 border border-slate-800 p-8 mb-8 theme-transition">
+            <div class="flex flex-col gap-5">
+                <label class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-500/80 px-1" id="inputLabel">
                     ယာဉ်လိုင်စင်နံပါတ် ထည့်ပါ
                 </label>
-                <div class="relative">
+                <div class="relative group">
                     <input type="text" id="plateInput" placeholder="ဥပမာ- 1S, 2S" 
-                           class="w-full text-xl md:text-2xl font-mono p-4 pr-12 rounded-xl border-2 border-slate-100 focus:border-blue-500 focus:ring-4 focus:ring-blue-50 focus:outline-none transition-all uppercase">
-                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300">
-                        <i data-lucide="car"></i>
+                           class="w-full text-2xl font-mono p-5 pr-14 rounded-2xl border-2 border-slate-700 bg-slate-800/50 text-white focus:bg-slate-800 focus:border-indigo-500 focus:ring-8 focus:ring-indigo-500/5 focus:outline-none transition-all uppercase placeholder:normal-case theme-transition">
+                    <div class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-600 group-focus-within:text-indigo-500 transition-colors">
+                        <i data-lucide="car-front" class="w-6 h-6"></i>
                     </div>
                 </div>
 
                 <!-- Status Display -->
-                <div id="statusDisplay" class="flex items-center gap-3 p-4 rounded-xl bg-slate-50 text-slate-400 border border-transparent transition-all">
-                    <i data-lucide="alert-circle" size="18"></i>
+                <div id="statusDisplay" class="flex items-center gap-4 p-5 rounded-2xl bg-slate-800/40 text-slate-500 border border-slate-700 transition-all font-medium theme-transition">
+                    <i data-lucide="mouse-pointer-2" class="w-5 h-5 animate-bounce"></i>
                     <span>မောင်းနှင်ခွင့်ရက် သိရှိရန် ယာဉ်နံပါတ်ကို အရင်ထည့်ပါ</span>
                 </div>
             </div>
         </section>
 
         <!-- Calendar Widget -->
-        <section id="calendarCard" class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden mb-6">
-            <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="calendar" class="text-slate-400"></i>
-                    <h2 id="currentMonthLabel" class="font-bold text-lg"></h2>
+        <section id="calendarCard" class="bg-slate-900/90 glass-card rounded-[2.5rem] shadow-xl shadow-indigo-950/20 border border-slate-800 overflow-hidden mb-8 theme-transition">
+            <div class="p-7 border-b border-slate-800 flex items-center justify-between bg-gradient-to-r from-slate-900/50 to-slate-900/50 theme-transition">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-indigo-900/30 rounded-xl text-indigo-400 theme-transition">
+                        <i data-lucide="calendar-days" class="w-5 h-5"></i>
+                    </div>
+                    <h2 id="currentMonthLabel" class="font-bold text-xl text-slate-100 tracking-tight theme-transition"></h2>
                 </div>
-                <div class="flex gap-2">
-                    <button id="prevMonth" class="p-2 rounded-lg border border-slate-200 hover:bg-white text-slate-600 transition-colors">
-                        <i data-lucide="chevron-left"></i>
+                <div class="flex gap-3">
+                    <button id="prevMonth" class="p-2.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-indigo-400 transition-all hover:scale-105 active:scale-95 shadow-sm theme-transition">
+                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
                     </button>
-                    <button id="nextMonth" class="p-2 rounded-lg border border-slate-200 hover:bg-white text-slate-600 transition-colors">
-                        <i data-lucide="chevron-right"></i>
+                    <button id="nextMonth" class="p-2.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-indigo-400 transition-all hover:scale-105 active:scale-95 shadow-sm theme-transition">
+                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
                     </button>
                 </div>
             </div>
 
-            <div class="p-4 md:p-6">
+            <div class="p-6 md:p-8">
                 <!-- Day Headers -->
-                <div class="grid grid-cols-7 mb-2 text-[10px] md:text-xs">
-                    <div class="text-center font-bold text-slate-400 py-2">တနင်္ဂ</div>
-                    <div class="text-center font-bold text-slate-400 py-2">တနင်္လာ</div>
-                    <div class="text-center font-bold text-slate-400 py-2">အင်္ဂါ</div>
-                    <div class="text-center font-bold text-slate-400 py-2">ဗုဒ္ဓ</div>
-                    <div class="text-center font-bold text-slate-400 py-2">ကြာ</div>
-                    <div class="text-center font-bold text-slate-400 py-2">သော</div>
-                    <div class="text-center font-bold text-slate-400 py-2">စနေ</div>
+                <div class="grid grid-cols-7 mb-4">
+                    <div class="text-center font-bold text-rose-400 text-[10px] md:text-xs uppercase tracking-tighter">တနင်္ဂ</div>
+                    <div class="text-center font-bold text-slate-400 text-[10px] md:text-xs uppercase tracking-tighter">တနင်္လာ</div>
+                    <div class="text-center font-bold text-slate-400 text-[10px] md:text-xs uppercase tracking-tighter">အင်္ဂါ</div>
+                    <div class="text-center font-bold text-slate-400 text-[10px] md:text-xs uppercase tracking-tighter">ဗုဒ္ဓ</div>
+                    <div class="text-center font-bold text-slate-400 text-[10px] md:text-xs uppercase tracking-tighter">ကြာ</div>
+                    <div class="text-center font-bold text-slate-400 text-[10px] md:text-xs uppercase tracking-tighter">သော</div>
+                    <div class="text-center font-bold text-slate-400 text-[10px] md:text-xs uppercase tracking-tighter">စနေ</div>
                 </div>
 
                 <!-- Day Grid -->
-                <div id="calendarGrid" class="grid grid-cols-7 gap-1 md:gap-2">
-                    <!-- Javascript will populate this -->
+                <div id="calendarGrid" class="grid grid-cols-7 gap-2 md:gap-3">
+                    <!-- Javascript populates -->
                 </div>
 
                 <!-- Legend -->
-                <div class="mt-8 pt-6 border-t border-slate-100 flex flex-wrap gap-4 justify-center text-[11px] md:text-xs font-medium text-slate-500" id="legend">
-                    <div class="flex items-center gap-1.5">
-                        <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
-                        <span>မောင်းနှင်ခွင့်ရှိသည်</span>
+                <div class="mt-10 pt-8 border-t border-slate-800 flex flex-wrap gap-6 justify-center text-xs font-bold text-slate-500 theme-transition" id="legend">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3.5 h-3.5 rounded-full bg-emerald-500 shadow-lg shadow-emerald-200/20"></div>
+                        <span>မောင်းနှင်ခွင့်ရှိ</span>
                     </div>
-                    <div class="flex items-center gap-1.5">
-                        <div class="w-3 h-3 rounded-full bg-rose-500"></div>
-                        <span>မောင်းနှင်ခွင့်မရှိပါ</span>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3.5 h-3.5 rounded-full bg-rose-500 shadow-lg shadow-rose-200/20"></div>
+                        <span>မောင်းနှင်ခွင့်မရှိ</span>
                     </div>
-                    <div class="flex items-center gap-1.5">
-                        <div class="w-3 h-3 rounded-full border-2 border-blue-500"></div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3.5 h-3.5 rounded-full ring-2 ring-indigo-500 ring-offset-2 ring-offset-slate-900"></div>
                         <span>ယနေ့</span>
                     </div>
                 </div>
@@ -122,57 +148,64 @@
         </section>
 
         <!-- Footer -->
-        <footer class="text-center pb-8">
-            <button id="infoToggle" class="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors py-2">
-                <i data-lucide="info" size="16"></i>
-                <span class="text-sm font-medium underline underline-offset-4">စည်းကမ်းချက်နှင့် ကင်းလွတ်ခွင့်များ ကြည့်ရန်</span>
+        <footer class="text-center pb-12">
+            <button id="infoToggle" class="group inline-flex items-center gap-2.5 text-slate-500 hover:text-indigo-400 transition-all py-3 px-6 rounded-2xl hover:bg-slate-800/50">
+                <i data-lucide="help-circle" class="w-5 h-5 group-hover:rotate-12 transition-transform"></i>
+                <span class="text-sm font-bold tracking-wide">စည်းကမ်းချက်နှင့် ကင်းလွတ်ခွင့်များ</span>
             </button>
 
             <!-- Exemptions Panel -->
-            <div id="exemptionsPanel" class="hidden mt-4 p-6 rounded-3xl shadow-xl border border-slate-100 text-left bg-white fade-in">
-                <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
-                    <i data-lucide="info" class="text-blue-500"></i>
-                    ယာဉ်သွားလာမှု ကန့်သတ်ချက်များ
-                </h3>
-                <p class="text-sm text-slate-600 mb-6 italic leading-relaxed">
+            <div id="exemptionsPanel" class="hidden mt-6 p-8 rounded-[2.5rem] shadow-2xl border border-slate-800 text-left bg-slate-900/95 glass-card fade-in theme-transition">
+                <div class="flex items-center justify-between mb-8 sticky top-0 bg-slate-900/95 py-2 z-10">
+                    <h3 class="font-black text-xl text-slate-100 flex items-center gap-3 theme-transition">
+                        <span class="w-2 h-8 bg-indigo-600 rounded-full"></span>
+                        ယာဉ်သွားလာမှု ကန့်သတ်ချက်များ
+                    </h3>
+                    <button id="closeInfoIcon" class="p-2 text-slate-600 hover:text-rose-500 transition-colors">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+                
+                <p class="text-[15px] text-slate-400 mb-8 italic leading-relaxed font-medium theme-transition">
                     ယာဉ်နံပါတ် နောက်ဆုံးဂဏန်းသည် "စုံ" ဖြစ်ပါက စုံဂဏန်းရက်များတွင် မောင်းနှင်နိုင်ပြီး၊ "မ" ဖြစ်ပါက မဂဏန်းရက်များတွင် မောင်းနှင်နိုင်ပါသည်။
                 </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl">
-                        <i data-lucide="zap" class="text-amber-500"></i>
-                        <span class="text-[13px] font-medium text-slate-700">လျှပ်စစ်ကားများ (EVs)</span>
+                
+                <div id="exemptionGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-center gap-4 p-4 rounded-2xl border transition-colors exemption-item" data-type="emerald">
+                        <div class="p-2 bg-emerald-500 text-white rounded-lg shadow-lg shadow-emerald-200/20"><i data-lucide="zap" class="w-4 h-4"></i></div>
+                        <span class="text-[13px] font-bold">လျှပ်စစ်ကားများ (EVs)</span>
                     </div>
-                    <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl">
-                        <i data-lucide="circle-dot" class="text-yellow-600"></i>
-                        <span class="text-[13px] font-medium text-slate-700">အငှားယာဉ်များနှင့် Taxis များ</span>
+                    <div class="flex items-center gap-4 p-4 rounded-2xl border transition-colors exemption-item" data-type="amber">
+                        <div class="p-2 bg-amber-500 text-white rounded-lg shadow-lg shadow-amber-200/20"><i data-lucide="parking-square" class="w-4 h-4"></i></div>
+                        <span class="text-[13px] font-bold">အငှားယာဉ်များနှင့် Taxis များ</span>
                     </div>
-                    <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl">
-                        <i data-lucide="bus" class="text-blue-500"></i>
-                        <span class="text-[13px] font-medium text-slate-700">အများပြည်သူသုံးယာဉ်များနှင့် အရေးပေါ်ယာဉ်များ</span>
+                    <div class="flex items-center gap-4 p-4 rounded-2xl border transition-colors exemption-item" data-type="indigo">
+                        <div class="p-2 bg-indigo-500 text-white rounded-lg shadow-lg shadow-indigo-200/20"><i data-lucide="bus" class="w-4 h-4"></i></div>
+                        <span class="text-[13px] font-bold">အများပြည်သူသုံးယာဉ်များ</span>
                     </div>
-                    <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl">
-                        <i data-lucide="users" class="text-indigo-500"></i>
-                        <span class="text-[13px] font-medium text-slate-700">ဝန်ထမ်းကြိုပို့ယာဉ်များ</span>
+                    <div class="flex items-center gap-4 p-4 rounded-2xl border transition-colors exemption-item" data-type="violet">
+                        <div class="p-2 bg-violet-500 text-white rounded-lg shadow-lg shadow-violet-200/20"><i data-lucide="users" class="w-4 h-4"></i></div>
+                        <span class="text-[13px] font-bold">ဝန်ထမ်းကြိုပို့ယာဉ်များ</span>
                     </div>
-                    <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl">
-                        <i data-lucide="truck" class="text-orange-600"></i>
-                        <span class="text-[13px] font-medium text-slate-700">ကုန်စည်ဖြန့်ဖြူးရေးယာဉ်များ</span>
+                    <div class="flex items-center gap-4 p-4 rounded-2xl border transition-colors exemption-item" data-type="orange">
+                        <div class="p-2 bg-orange-500 text-white rounded-lg shadow-lg shadow-orange-200/20"><i data-lucide="truck" class="w-4 h-4"></i></div>
+                        <span class="text-[13px] font-bold">ကုန်စည်ဖြန့်ဖြူးရေးယာဉ်များ</span>
                     </div>
-                    <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl">
-                        <i data-lucide="briefcase" class="text-slate-600"></i>
-                        <span class="text-[13px] font-medium text-slate-700">ရုံးလုပ်ငန်းအသုံးပြုသည့်ယာဉ်များ</span>
+                    <div class="flex items-center gap-4 p-4 rounded-2xl border transition-colors exemption-item" data-type="slate">
+                        <div class="p-2 bg-slate-600 text-white rounded-lg shadow-lg shadow-slate-200/20"><i data-lucide="briefcase" class="w-4 h-4"></i></div>
+                        <span class="text-[13px] font-bold">ရုံးလုပ်ငန်းသုံးယာဉ်များ</span>
                     </div>
-                    <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl">
-                        <i data-lucide="graduation-cap" class="text-emerald-600"></i>
-                        <span class="text-[13px] font-medium text-slate-700">ကျောင်းကြို/ပို့ယာဉ်များ</span>
+                    <div class="flex items-center gap-4 p-4 rounded-2xl border transition-colors exemption-item md:col-span-2" data-type="sky">
+                        <div class="p-2 bg-sky-500 text-white rounded-lg shadow-lg shadow-sky-200/20"><i data-lucide="graduation-cap" class="w-4 h-4"></i></div>
+                        <span class="text-[13px] font-bold">ကျောင်းကြို/ပို့ယာဉ်များ</span>
                     </div>
                 </div>
-                <button id="closeInfo" class="w-full mt-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/20 transition-all active:scale-95">
+                <button id="closeInfo" class="w-full mt-10 py-5 bg-gradient-to-r from-indigo-600 to-violet-700 text-white font-black rounded-2xl hover:shadow-2xl hover:shadow-indigo-500/40 transition-all active:scale-[0.98] tracking-widest uppercase">
                     နားလည်ပါပြီ
                 </button>
             </div>
             
-            <p class="text-[10px] text-slate-400 mt-8 uppercase tracking-widest">
+            <p class="text-[11px] text-slate-500 mt-12 font-bold tracking-[0.3em] uppercase">
                 ACA@All Rights Reserved 2026.
             </p>
         </footer>
@@ -182,7 +215,7 @@
         // State
         let currentPlate = '';
         let viewDate = new Date();
-        let darkMode = false;
+        let darkMode = true;
         let plateParity = null;
 
         const monthsMy = ["ဇန်နဝါရီ", "ဖေဖော်ဝါရီ", "မတ်", "ဧပြီ", "မေ", "ဇွန်", "ဇူလိုင်", "ဩဂုတ်", "စက်တင်ဘာ", "အောက်တိုဘာ", "နိုဝင်ဘာ", "ဒီဇင်ဘာ"];
@@ -197,28 +230,34 @@
         const infoToggle = document.getElementById('infoToggle');
         const exemptionsPanel = document.getElementById('exemptionsPanel');
         const closeInfo = document.getElementById('closeInfo');
+        const closeInfoIcon = document.getElementById('closeInfoIcon');
 
         function updateParity() {
             currentPlate = plateInput.value;
             const digits = currentPlate.match(/\d/g);
             if (!digits) {
                 plateParity = null;
-                statusDisplay.className = "flex items-center gap-3 p-4 rounded-xl transition-all " + 
-                    (darkMode ? "bg-slate-800/50 text-slate-500 border border-slate-700" : "bg-slate-50 text-slate-400 border border-transparent");
-                statusDisplay.innerHTML = '<i data-lucide="alert-circle"></i><span>မောင်းနှင်ခွင့်ရက် သိရှိရန် ယာဉ်နံပါတ်ကို အရင်ထည့်ပါ</span>';
+                statusDisplay.className = `flex items-center gap-4 p-5 rounded-2xl transition-all border theme-transition ${
+                    darkMode ? 'bg-slate-800/40 text-slate-500 border-slate-700' : 'bg-slate-50 text-slate-400 border-slate-100'
+                }`;
+                statusDisplay.innerHTML = '<i data-lucide="mouse-pointer-2" class="w-5 h-5"></i><span>မောင်းနှင်ခွင့်ရက် သိရှိရန် ယာဉ်နံပါတ်ကို အရင်ထည့်ပါ</span>';
             } else {
                 const lastDigit = parseInt(digits[digits.length - 1]);
                 plateParity = lastDigit % 2 === 0 ? 'စုံ' : 'မ';
                 
                 if (plateParity === 'စုံ') {
-                    statusDisplay.className = `flex items-center gap-3 p-4 rounded-xl transition-all ${darkMode ? 'bg-blue-900/30 text-blue-300 border border-blue-800/50' : 'bg-blue-50 text-blue-700 border border-transparent'}`;
+                    statusDisplay.className = `flex items-center gap-4 p-5 rounded-2xl transition-all border shadow-lg shadow-indigo-500/5 theme-transition ${
+                        darkMode ? 'bg-indigo-900/30 text-indigo-300 border-indigo-500/30' : 'bg-indigo-50 text-indigo-700 border-indigo-100'
+                    }`;
                 } else {
-                    statusDisplay.className = `flex items-center gap-3 p-4 rounded-xl transition-all ${darkMode ? 'bg-orange-900/30 text-orange-300 border border-orange-800/50' : 'bg-orange-50 text-orange-700 border border-transparent'}`;
+                    statusDisplay.className = `flex items-center gap-4 p-5 rounded-2xl transition-all border shadow-lg shadow-orange-500/5 theme-transition ${
+                        darkMode ? 'bg-orange-900/30 text-orange-300 border-orange-500/30' : 'bg-orange-50 text-orange-700 border-orange-100'
+                    }`;
                 }
                 
                 statusDisplay.innerHTML = `
-                    <div class="w-3 h-3 rounded-full animate-pulse ${plateParity === 'စုံ' ? 'bg-blue-500' : 'bg-orange-500'}"></div>
-                    <span class="font-semibold">သင်၏ယာဉ်နံပါတ်သည် <span class="font-bold underline">"${plateParity}"</span> ဂဏန်းဖြင့် ဆုံးပါသည်</span>
+                    <div class="w-4 h-4 rounded-full animate-ping ${plateParity === 'စုံ' ? 'bg-indigo-500' : 'bg-orange-500'}"></div>
+                    <span class="font-bold">သင်၏ယာဉ်နံပါတ်သည် <span class="underline decoration-wavy decoration-2 underline-offset-4">"${plateParity}"</span> ဂဏန်းဖြင့် ဆုံးပါသည်</span>
                 `;
             }
             lucide.createIcons();
@@ -257,66 +296,91 @@
                 const dayParity = day % 2 === 0 ? 'စုံ' : 'မ';
                 eligibility = dayParity === plateParity ? 'allowed' : 'restricted';
             }
-            div.className = `aspect-square flex flex-col items-center justify-center rounded-xl relative transition-all text-sm md:text-base font-medium `;
+            div.className = `aspect-square flex flex-col items-center justify-center rounded-2xl relative transition-all text-sm md:text-base font-bold fade-in `;
+            
             if (!isCurrentMonth) {
-                div.classList.add(darkMode ? 'text-slate-800' : 'text-slate-300', 'opacity-20');
+                div.classList.add(darkMode ? 'text-slate-800' : 'text-slate-200', 'opacity-30');
                 div.innerText = day;
             } else {
                 if (eligibility === 'allowed') {
-                    div.classList.add(darkMode ? 'bg-emerald-500/20' : 'bg-emerald-400' , darkMode ? 'text-emerald-400' : 'text-emerald-700');
-                    if (!darkMode) div.classList.add('bg-emerald-50');
-                    div.innerHTML = `${day} <i data-lucide="check-circle-2" class="w-2 h-2 mt-1 opacity-60"></i>`;
+                    div.classList.add(darkMode ? 'bg-emerald-500/20' : 'bg-emerald-100', darkMode ? 'text-emerald-400' : 'text-emerald-800');
+                    div.innerHTML = `<span>${day}</span> <i data-lucide="check" class="w-3 h-3 mt-0.5 opacity-80"></i>`;
                 } else if (eligibility === 'restricted') {
-                    div.classList.add(darkMode ? 'bg-rose-500/20' : 'bg-rose-400' , darkMode ? 'text-rose-400' : 'text-rose-700');
-                    if (!darkMode) div.classList.add('bg-rose-50');
-                    div.innerHTML = `${day} <i data-lucide="alert-circle" class="w-2 h-2 mt-1 opacity-60"></i>`;
+                    div.classList.add(darkMode ? 'bg-rose-500/20' : 'bg-rose-100', darkMode ? 'text-rose-400' : 'text-rose-800');
+                    div.innerHTML = `<span>${day}</span> <i data-lucide="lock" class="w-2.5 h-2.5 mt-0.5 opacity-50"></i>`;
                 } else {
-                    div.classList.add(darkMode ? 'text-slate-300' : 'text-slate-700');
+                    div.classList.add(darkMode ? 'text-slate-500' : 'text-slate-600');
+                    div.classList.add(darkMode ? 'hover:bg-slate-800' : 'hover:bg-slate-50');
                     div.innerText = day;
                 }
                 if (isCurToday) {
-                    div.classList.add('ring-2', 'ring-blue-500', 'ring-offset-2');
-                    if (darkMode) div.classList.add('ring-offset-slate-950');
+                    div.classList.add('ring-2', 'ring-indigo-500', 'ring-offset-2');
+                    if (darkMode) div.classList.add('ring-offset-slate-900');
+                    else div.classList.add('ring-offset-white');
                 }
             }
             return div;
         }
 
+        function updateExemptionTheme() {
+            document.querySelectorAll('.exemption-item').forEach(el => {
+                const type = el.getAttribute('data-type');
+                if (darkMode) {
+                    el.className = `flex items-center gap-4 p-4 rounded-2xl border transition-colors exemption-item bg-${type}-950/20 border-${type}-800/30 text-${type}-300`;
+                } else {
+                    el.className = `flex items-center gap-4 p-4 rounded-2xl border transition-colors exemption-item bg-${type}-50/50 border-${type}-100/50 text-${type}-800`;
+                }
+            });
+        }
+
         themeToggle.addEventListener('click', () => {
             darkMode = !darkMode;
+            applyTheme();
+        });
+
+        function applyTheme() {
             document.body.classList.toggle('dark-mode', darkMode);
+            document.body.classList.toggle('light-mode', !darkMode);
+            
             const cardIds = ['inputCard', 'calendarCard', 'exemptionsPanel'];
             cardIds.forEach(id => {
                 const el = document.getElementById(id);
                 if (darkMode) {
-                    el.classList.replace('bg-white', 'bg-slate-900');
-                    el.classList.replace('border-slate-200', 'border-slate-800');
-                    el.classList.replace('border-slate-100', 'border-slate-800');
+                    el.classList.add('bg-slate-900/90', 'border-slate-800', 'shadow-indigo-950/20');
+                    el.classList.remove('bg-white/90', 'border-white', 'shadow-slate-200/50');
                 } else {
-                    el.classList.replace('bg-slate-900', 'bg-white');
-                    el.classList.replace('border-slate-800', 'border-slate-200');
-                    el.classList.replace('border-slate-800', 'border-slate-100');
+                    el.classList.add('bg-white/90', 'border-white', 'shadow-slate-200/50');
+                    el.classList.remove('bg-slate-900/90', 'border-slate-800', 'shadow-indigo-950/20');
                 }
             });
 
-            document.querySelectorAll('#exemptionsPanel div.bg-slate-50').forEach(el => {
-                if(darkMode) el.classList.replace('bg-slate-50', 'bg-slate-800');
-                else el.classList.replace('bg-slate-800', 'bg-slate-50');
-            });
+            const calHeader = document.querySelector('#calendarCard > div:first-child');
+            if (darkMode) {
+                calHeader.classList.replace('from-slate-50/50', 'from-slate-900/50');
+                calHeader.classList.replace('to-white/50', 'to-slate-900/50');
+                calHeader.classList.replace('border-slate-50', 'border-slate-800');
+            } else {
+                calHeader.classList.replace('from-slate-900/50', 'from-slate-50/50');
+                calHeader.classList.replace('to-slate-900/50', 'to-white/50');
+                calHeader.classList.replace('border-slate-800', 'border-slate-50');
+            }
 
+            updateExemptionTheme();
             themeIcon.setAttribute('data-lucide', darkMode ? 'sun' : 'moon');
-            themeToggle.classList.toggle('bg-slate-800', darkMode);
-            themeToggle.classList.toggle('text-amber-400', darkMode);
+            themeToggle.className = `absolute right-0 top-0 p-3 rounded-2xl border transition-all shadow-md active:scale-95 theme-transition ${
+                darkMode ? 'bg-slate-800 border-slate-700 text-amber-400' : 'bg-white/80 border-slate-200 text-indigo-600'
+            }`;
             updateParity();
-        });
+        }
 
         plateInput.addEventListener('input', updateParity);
-        document.getElementById('prevMonth').addEventListener('click', () => { viewDate.setMonth(viewDate.getMonth() - 1); renderCalendar(); });
-        document.getElementById('nextMonth').addEventListener('click', () => { viewDate.setMonth(viewDate.getMonth() + 1); renderCalendar(); });
-        infoToggle.addEventListener('click', () => { exemptionsPanel.classList.toggle('hidden'); });
+        document.getElementById('prevMonth').addEventListener('click', () => { viewDate.setDate(1); viewDate.setMonth(viewDate.getMonth() - 1); renderCalendar(); });
+        document.getElementById('nextMonth').addEventListener('click', () => { viewDate.setDate(1); viewDate.setMonth(viewDate.getMonth() + 1); renderCalendar(); });
+        infoToggle.addEventListener('click', () => { exemptionsPanel.classList.remove('hidden'); });
         closeInfo.addEventListener('click', () => { exemptionsPanel.classList.add('hidden'); });
+        closeInfoIcon.addEventListener('click', () => { exemptionsPanel.classList.add('hidden'); });
 
-        window.onload = () => { lucide.createIcons(); renderCalendar(); };
+        window.onload = () => { applyTheme(); renderCalendar(); };
     </script>
 </body>
 </html>
